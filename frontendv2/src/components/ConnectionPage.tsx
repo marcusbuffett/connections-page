@@ -39,7 +39,7 @@ const ConnectionPage = ({ creation }: { creation?: boolean }) => {
           c(
             s.fullWidth,
             s.pageHeight,
-            s.bg(s.hsl(purpleHue, 30, 20)),
+            s.bg(s.hsl(purpleHue, 25, 50)),
             s.column,
             s.alignCenter
           )
@@ -60,14 +60,23 @@ const ConnectionPage = ({ creation }: { creation?: boolean }) => {
           )}
         >
           <div className={css(c(s.textAlign("center"), s.px(20)))}>
-            Humans need connections, not followers.
+            Humans need connection, not followers.
             <br />
             <AutoInput
-              dashedLine={() => <DashedLine />}
               onChange={e => {
                 setName(e.target.value)
               }}
-              style={c(s.weightSemiBold, s.inlineBlock)}
+              dashedLine={w => (
+                <DashedLine width={w} dasharray="8" strokeWidth={4} />
+              )}
+              lineOffset={6}
+              style={c(
+                s.weightSemiBold,
+                s.inlineBlock,
+                s.fg(editColor),
+                s.whitespace("nowrap"),
+                s.minWidth(40)
+              )}
               value={name}
             ></AutoInput>{" "}
             is human.
@@ -77,6 +86,7 @@ const ConnectionPage = ({ creation }: { creation?: boolean }) => {
           className={css(
             c(
               s.width("min(calc(100vw - 32px), 700px)"),
+              s.grow,
               s.fg(offWhite),
               s.fontSize(isMobile ? 14 : 20),
               s.weightRegular,
@@ -107,18 +117,35 @@ const ConnectionPage = ({ creation }: { creation?: boolean }) => {
                 {intersperse(
                   interests.map((interest, i) => {
                     return (
-                      <AutoInput
-                        key={i}
-                        value={interest}
-                        onChange={e => {
-                          setInterests(draft => {
-                            draft[i] = e.target.value
-                          })
-                        }}
-                        dashedLine={() => <DashedLine />}
-                        lineOffset={14}
-                        style={c(inlineStyles, s.fg(editColor), s.minWidth(40))}
-                      ></AutoInput>
+                      <span className={css(c(s.px(4)))}>
+                        <AutoInput
+                          key={i}
+                          value={interest}
+                          onChange={e => {
+                            e.persist()
+                            setInterests(draft => {
+                              if (e.target) {
+                                draft[i] = e.target.value
+                              }
+                            })
+                          }}
+                          dashedLine={w => (
+                            <DashedLine
+                              width={w}
+                              dasharray="8"
+                              strokeWidth={3}
+                            />
+                          )}
+                          lineOffset={4}
+                          style={c(
+                            inlineStyles,
+                            s.whitespace("nowrap"),
+                            s.fg(editColor),
+                            s.minWidth(40),
+                            s.weightSemiBold
+                          )}
+                        ></AutoInput>
+                      </span>
                     )
                   }),
                   i => {
@@ -137,26 +164,6 @@ const ConnectionPage = ({ creation }: { creation?: boolean }) => {
             }
             <pre className={css(c(s.inlineBlock))}>.</pre>
           </div>
-          {creation && (
-            <div className={css(c(s.pl(20)))}>
-              <Spacer height={24} />
-              {intersperse(
-                interests.map(interest => {
-                  return (
-                    <div
-                      key={interest}
-                      className={css(c(s.weightSemiBold, s.fg(editColor)))}
-                    >
-                      {interest}
-                    </div>
-                  )
-                }),
-                i => (
-                  <Spacer key={i} height={12} />
-                )
-              )}
-            </div>
-          )}
           {paragraphSpacer}
           <div className={css(c())}>
             Think the world needs more connections and less surface-level
