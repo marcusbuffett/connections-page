@@ -1,7 +1,7 @@
 import React from "react"
 import { editColor } from "src/app_styles"
 
-const DashedLine = ({ dasharray, strokeWidth, width, color }) => {
+const DashedLine = ({ dasharray = "2", strokeWidth, width, color }) => {
   return (
     <svg
       viewBox={`0 0 ${width} ${strokeWidth}`}

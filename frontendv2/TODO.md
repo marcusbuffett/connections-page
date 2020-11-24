@@ -19,6 +19,7 @@ TODO
 - Rich text
 - Look up styling tips for body text
 - Try clear cache reload, maybe remaining issue with fonts
+- Strip @ from twitter handle
 
 After launch:
 

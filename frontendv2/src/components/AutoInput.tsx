@@ -53,6 +53,7 @@ const AutoInput = forwardRef<any, any>((props, ref) => {
         ref={ref}
         placeholder={placeholder}
         value={props.value}
+        autoCapitalize={props.autoCapitalize}
         onChange={props.onChange}
         className={css(c(style, s.width(spanWidth), s.px(0), s.inlineBlock))}
       />
@@ -63,7 +64,7 @@ const AutoInput = forwardRef<any, any>((props, ref) => {
             s.bottom(0),
             s.mb(-lineOffset),
             s.left(0),
-            s.fullWidth,
+            s.width(spanWidth),
             s.fontSize(0)
           )
         )}

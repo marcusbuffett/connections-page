@@ -49,7 +49,7 @@ const Layout = ({
 
   return (
     <FontsLoadedContext.Provider value={fontsLoaded}>
-      <div className={css(s.lineHeight(1.4))}>
+      <div className={css()}>
         <Helmet>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link

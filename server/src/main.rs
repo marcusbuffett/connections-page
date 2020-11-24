@@ -134,7 +134,7 @@ fn main() -> Result<(), ServerError> {
         .expect("Failed to open sled db");
     let db = Database {
         pages: db
-            .open_bincode_tree("pagesv5")
+            .open_bincode_tree("pagesv6")
             .expect("failed to open pages tree"),
     };
     dotenv::from_path("prod.env").ok();

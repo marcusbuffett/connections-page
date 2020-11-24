@@ -6,6 +6,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "@types/chroma-js": "^2.1.2",
+    "@types/lodash": "^4.14.165",
     "@types/styletron-engine-atomic": "^1.1.0",
     "@types/styletron-react": "^5.0.2",
     "@types/styletron-standard": "^2.0.1",
@@ -30,6 +31,7 @@
     "react-head": "^3.4.0",
     "react-helmet": "^6.1.0",
     "rooks": "^3.6.0",
+    "shuffle-seed": "^1.1.6",
     "styletron-engine-atomic": "^1.4.6",
     "styletron-react": "^5.2.7",
     "superagent": "^6.1.0",

@@ -53,6 +53,7 @@ const weightSemiBold = keyedProp("fontWeight")(500)
 const weightBold = keyedProp("fontWeight")(600)
 
 const flexGrow = keyedProp("flexGrow")
+const flexStatic = c(keyedProp("flexGrow")(0), keyedProp("flexShrink")(0))
 const unshrinkable = keyedProp("flexShrink")(0)
 const grow = keyedProp("flexGrow")(1)
 const flex = keyedProp("flex")
@@ -70,6 +71,7 @@ const size = (x: string | number) => {
   return c(height(x), width(x))
 }
 
+const selfStart = keyedProp("alignSelf")("flex-start")
 const selfCenter = keyedProp("alignSelf")("center")
 const selfEnd = keyedProp("alignSelf")("flex-end")
 const alignStart = keyedProp("alignItems")("flex-start")
@@ -163,6 +165,7 @@ export const s = {
   weightSemiBold,
   weightBold,
   flexGrow,
+  flexStatic,
   unshrinkable,
   grow,
   flex,
@@ -177,6 +180,7 @@ export const s = {
   minHeight,
   size,
   selfCenter,
+  selfStart,
   selfEnd,
   alignStart,
   alignEnd,
@@ -229,6 +233,14 @@ export const s = {
   inlineBlock: display("inline-block"),
   whitespace: keyedProp("whiteSpace"),
   shadow,
+  stif: (x, styles) => {
+    return x ? styles : {}
+  },
+  transition: key => {
+    return {
+      transition: `250ms ${key} ease-in-out`,
+    }
+  },
   gradient: (c1, c2, c3) => {
     return {
       background: `linear-gradient(180deg, ${c1} 0%, ${c2} 66%, ${c3} 100%)`,
