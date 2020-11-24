@@ -16,13 +16,12 @@ import { FontsLoadedContext } from "src/components/FontsLoadedContext"
 export interface AutoInputProps {}
 
 const AutoInput = forwardRef<any, any>((props, ref) => {
-  const { style, value } = props
+  const { style, value, placeholder } = props
   const { dashedLine, lineOffset } = props
   const spanRef = useRef(null)
+  const displayValue = value === "" ? placeholder : value
 
   const [spanWidth, setSpanWidth] = useState(0)
-  const propsNoStyles = _.cloneDeep(props)
-  propsNoStyles["style"] = undefined
 
   const fontsLoaded = useContext(FontsLoadedContext)
   const updateInputFieldWidth = () => {
@@ -48,11 +47,13 @@ const AutoInput = forwardRef<any, any>((props, ref) => {
           )
         )}
       >
-        {value}
+        {displayValue}
       </span>
       <input
         ref={ref}
-        {...propsNoStyles}
+        placeholder={placeholder}
+        value={props.value}
+        onChange={props.onChange}
         className={css(c(style, s.width(spanWidth), s.px(0), s.inlineBlock))}
       />
       <div

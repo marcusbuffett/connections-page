@@ -1,5 +1,12 @@
 body {
   font-family: "Rubik", sans-serif;
+  background: linear-gradient(
+    180deg,
+    hsl(240, 25%, 50%) 0%,
+    hsl(240, 25%, 50%) 50%,
+    black 51%,
+    black 100%
+  );
 }
 * {
   box-sizing: border-box;

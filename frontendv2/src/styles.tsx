@@ -71,6 +71,7 @@ const size = (x: string | number) => {
 }
 
 const selfCenter = keyedProp("alignSelf")("center")
+const selfEnd = keyedProp("alignSelf")("flex-end")
 const alignStart = keyedProp("alignItems")("flex-start")
 const alignEnd = keyedProp("alignItems")("flex-end")
 const justifyStart = keyedProp("justifyContent")("flex-start")
@@ -130,10 +131,15 @@ const dashboardTitle = c(fontSize(40), weightBold, fg("#2e2e3c"))
 const zIndex = keyedProp("zIndex")
 const overflowHidden = keyedProp("overflow")("hidden")
 const scrollY = keyedProp("overflow-y")("scroll")
-const shadow = keyedProp("boxShadow")
 const aircamBlue = "#1160d6"
 const lineHeight = keyedProp("lineHeight")
 const fontFamily = keyedProp("fontFamily")
+
+const shadow = (x, y, blur, spread, color) => {
+  return {
+    boxShadow: `${x}px ${y}px ${blur}px ${spread}px ${color}`,
+  }
+}
 
 export const s = {
   keyedProp,
@@ -145,7 +151,6 @@ export const s = {
   pr,
   px,
   py,
-
   m,
   mt,
   mb,
@@ -153,30 +158,26 @@ export const s = {
   mr,
   mx,
   my,
-
   weightThin,
   weightRegular,
   weightSemiBold,
   weightBold,
-
   flexGrow,
   unshrinkable,
   grow,
   flex,
   textAlign,
   lineHeight,
-
   pageHeight,
   fullHeight,
   fullWidth,
-
   height,
   width,
   minWidth,
   minHeight,
   size,
-
   selfCenter,
+  selfEnd,
   alignStart,
   alignEnd,
   justifyStart,
@@ -222,10 +223,15 @@ export const s = {
   zIndex,
   overflowHidden,
   scrollY,
-  shadow,
   aircamBlue,
   hsl,
   fontFamily,
   inlineBlock: display("inline-block"),
   whitespace: keyedProp("whiteSpace"),
+  shadow,
+  gradient: (c1, c2, c3) => {
+    return {
+      background: `linear-gradient(180deg, ${c1} 0%, ${c2} 66%, ${c3} 100%)`,
+    }
+  },
 }
