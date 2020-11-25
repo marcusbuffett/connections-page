@@ -27,7 +27,7 @@ export const headerStyles = (isMobile: boolean) =>
     s.fullWidth,
     s.center,
     s.fontSize(isMobile ? 24 : 32),
-    s.lineHeight(1.2),
+    s.lineHeight(1.4),
     s.weightRegular,
     s.fg(headerColor),
     s.px(12)

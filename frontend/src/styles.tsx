@@ -143,6 +143,10 @@ const shadow = (x, y, blur, spread, color) => {
   }
 }
 
+const white = (opacity: number) => {
+  return `hsla(0, 0%, 100%, ${opacity}%)`
+}
+
 export const s = {
   keyedProp,
   caps,
@@ -246,4 +250,5 @@ export const s = {
       background: `linear-gradient(180deg, ${c1} 0%, ${c2} 66%, ${c3} 100%)`,
     }
   },
+  white,
 }

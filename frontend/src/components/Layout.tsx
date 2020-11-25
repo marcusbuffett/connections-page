@@ -56,6 +56,12 @@ const Layout = ({
             href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap"
             rel="stylesheet"
           />
+          <script
+            async={true}
+            src="https://ackee.theconnection.page/tracker.js"
+            data-ackee-server="https://ackee.theconnection.page"
+            data-ackee-domain-id="8e632398-63a0-4f63-a296-7aa1c6d41aaa"
+          ></script>
         </Helmet>
         <div
           className={css(

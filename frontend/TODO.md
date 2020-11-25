@@ -7,22 +7,22 @@ DONE:
 - Publish button
 - Don't show final paragraph if in creation mode
 - Don't show banner in creation mode
+- Remove interest button
+- Add interest button
+- Strip @ from twitter handle
 
 TODO
 
-- Remove interest button
-- Add interest button
-- Draggable icon
-- Add "Edit me" on name
-- Figure out link on bottom
 - Favicon / splash image
-- Rich text
 - Look up styling tips for body text
-- Try clear cache reload, maybe remaining issue with fonts
-- Strip @ from twitter handle
+- Error message after submitting page
+- Filter interests when submitting
+- Remove interests section if no interests
 
-After launch:
+After adding to blog (aka softlaunch):
 
+- Blog post onp project, add link on bottom
 - Post to twitter
 - Find relevant subreddits, probably social media hating ones
 - SSR, partially for rich text
+- Try clear cache reload, maybe remaining issue with fonts

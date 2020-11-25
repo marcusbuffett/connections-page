@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
-import superagent from "superagent"
+// import superagent from "superagent"
 import caseConverter from "superagent-case-converter"
+import axios from "axios"
 
 import { c, s } from "src/styles"
 import {
+  backgroundColor,
   bodyStyles,
   boldHeaderStyles,
   headerStyles,
@@ -19,6 +21,7 @@ import { Twitter } from "react-feather"
 import { Page } from "src/models"
 import { introCopy } from "src/copy"
 import { formatInterests } from "src/utilities"
+import applyCaseMiddleware from "axios-case-converter"
 
 const darkPurple = s.hsl(purpleHue, 80, 20)
 const ConnectionPage = ({ id }: { creation?: boolean; id: string }) => {
@@ -29,21 +32,34 @@ const ConnectionPage = ({ id }: { creation?: boolean; id: string }) => {
   const paragraphSpacer = <Spacer height={24} />
   const [page, setPage] = useState(null as Page)
   useEffect(() => {
-    superagent
-      // TODO: change this...
-      .get(`/api/pages/marcus`)
-      .accept("json")
-      .use(caseConverter)
-      .end((err, res) => {
-        console.log("err:", err)
-        console.log("res.body:", res.body)
-        if (!err) {
-          setPage(res.body)
+    applyCaseMiddleware(axios.create())
+      .get(`/api/pages/${id}`)
+      .then(res => {
+        console.log("res.data:", res.data)
+        const page = res.data as Page
+        if (page) {
+          setPage(res.data)
         }
       })
+      .catch(e => {
+        // setError(
+        // "There was an error with getting your page. Are you sure your twitter handle is correct?"
+        // )
+      })
+    // superagent
+    // // TODO: change this...
+    // .get(`/api/pages/${id}`)
+    // .accept("json")
+    // .use(caseConverter)
+    // .end((err, res) => {
+    // console.log("err:", err)
+    // console.log("res.body:", res.body)
+    // if (!err) {
+    // }
+    // })
   }, [])
   if (!page) {
-    return null
+    return <div className={css(s.pageHeight, s.bg(backgroundColor))}></div>
   }
   const { firstName, channels } = page
   console.log("channels:", channels)

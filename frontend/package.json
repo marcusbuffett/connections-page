@@ -10,6 +10,8 @@
     "@types/styletron-engine-atomic": "^1.1.0",
     "@types/styletron-react": "^5.0.2",
     "@types/styletron-standard": "^2.0.1",
+    "axios": "^0.21.0",
+    "axios-case-converter": "^0.6.0",
     "fontfaceobserver": "^2.1.0",
     "gatsby": "^2.25.3",
     "gatsby-image": "^2.4.21",
@@ -34,8 +36,6 @@
     "shuffle-seed": "^1.1.6",
     "styletron-engine-atomic": "^1.4.6",
     "styletron-react": "^5.2.7",
-    "superagent": "^6.1.0",
-    "superagent-case-converter": "^0.1.1",
     "use-immer": "^0.4.1",
     "webfontloader": "^1.6.28"
   },

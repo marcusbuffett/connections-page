@@ -4,6 +4,7 @@
 #[macro_use]
 extern crate rocket;
 
+use nanoid::nanoid;
 use reqwest::header::AUTHORIZATION;
 use rocket::State;
 use rocket::{http::Status, response::Responder};
@@ -16,6 +17,8 @@ use std::option::NoneError;
 
 #[derive(thiserror::Error, Debug)]
 pub enum ServerError {
+    #[error("serialization error")]
+    SerializationError(#[from] serde_json::Error),
     #[error("reqwest error")]
     ReqwestError(#[from] reqwest::Error),
     #[error("sled db error")]
@@ -32,10 +35,12 @@ impl From<NoneError> for ServerError {
 
 impl<'a> Responder<'a> for ServerError {
     fn respond_to(self, _: &rocket::Request) -> Result<rocket::Response<'a>, Status> {
+        dbg!(&self);
         match self {
             Self::SledError(_) => Err(Status::InternalServerError),
             Self::NotFound => Err(Status::NotFound),
-            ServerError::ReqwestError(_) => Err(Status::InternalServerError),
+            Self::ReqwestError(_) => Err(Status::InternalServerError),
+            Self::SerializationError(_) => Err(Status::InternalServerError),
         }
     }
 }
@@ -49,6 +54,14 @@ struct Page {
     first_name: String,
     interests: Vec<String>,
     channels: Channels,
+    identifier: String,
+}
+
+fn generate_page_identifier() -> Result<String, ServerError> {
+    let alphabet: Vec<char> = "abcdefghijklmnopqrstuvwxyzABCDEFGIJKLMNOPQRSTUVWXYZ"
+        .chars()
+        .collect();
+    Ok(nanoid!(6, &alphabet))
 }
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -80,17 +93,22 @@ fn create_page(db: State<Database>, page_request: Json<PageRequest>) -> Endpoint
     let page = Page {
         first_name: page_request.first_name.clone(),
         interests: page_request.interests.clone(),
+        identifier: generate_page_identifier()?,
         channels: Channels {
             twitter: Twitter {
                 user_id: fetch_twitter_id(page_request.twitter_screen_name.clone())?,
-                screen_name: page_request.twitter_screen_name.clone(),
+                screen_name: sanitize_twitter_screen_name(page_request.twitter_screen_name.clone()),
             },
         },
     };
     db.pages
-        .insert(page.first_name.as_bytes(), page.clone())
+        .insert(page.identifier.as_bytes(), page.clone())
         .unwrap();
     Ok(Json(page))
+}
+
+fn sanitize_twitter_screen_name(screen_name: String) -> String {
+    screen_name.replace("@", "")
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -118,6 +136,11 @@ fn fetch_twitter_id(username: String) -> Result<u64, ServerError> {
     }
 }
 
+#[get("/health")]
+fn health_check() -> Result<&'static str, ServerError> {
+    Ok("Healthy")
+}
+
 #[test]
 fn test_fetch_twitter_id() {
     dotenv::from_path("prod.env").ok();
@@ -128,13 +151,14 @@ fn test_fetch_twitter_id() {
 }
 
 fn main() -> Result<(), ServerError> {
+    let path = env::var("DB_PATH").unwrap_or("./data/sled".to_string());
     let db = sled_extensions::Config::default()
-        .path("./sled_data")
+        .path(path)
         .open()
         .expect("Failed to open sled db");
     let db = Database {
         pages: db
-            .open_bincode_tree("pagesv6")
+            .open_bincode_tree("pagesv7")
             .expect("failed to open pages tree"),
     };
     dotenv::from_path("prod.env").ok();
@@ -152,11 +176,12 @@ fn main() -> Result<(), ServerError> {
                     screen_name: "marcusbuffett".to_owned(),
                 },
             },
+            identifier: "marcus".to_string(),
         },
     )?;
     rocket::ignite()
         .manage(db)
-        .mount("/api/", routes![get_page, create_page])
+        .mount("/api/", routes![get_page, create_page, health_check])
         .launch();
     Ok(())
 }

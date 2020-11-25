@@ -12,6 +12,7 @@ import { c, s } from "src/styles"
 import { useBoundingclientrect, useTimeout } from "rooks"
 import DashedLine from "src/components/DashedLine"
 import { FontsLoadedContext } from "src/components/FontsLoadedContext"
+import { useStyletronChain } from "src/utils/useStyletronChain"
 
 export interface AutoInputProps {}
 
@@ -33,9 +34,11 @@ const AutoInput = forwardRef<any, any>((props, ref) => {
     }
   }
   useLayoutEffect(updateInputFieldWidth, [fontsLoaded, value])
-  const [css] = useStyletron()
+  const css = useStyletronChain()
   return (
-    <div className={css(c(s.relative, s.inlineBlock))}>
+    <div
+      className={css(s.relative, s.inlineBlock, props.containerStyles || {})}
+    >
       <span
         ref={spanRef}
         className={css(
@@ -53,7 +56,9 @@ const AutoInput = forwardRef<any, any>((props, ref) => {
         ref={ref}
         placeholder={placeholder}
         value={props.value}
-        autoCapitalize={props.autoCapitalize}
+        autoCapitalize={props.autocapitalize}
+        autoCorrect={props.autocorrect}
+        spellCheck={props.spellCheck}
         onChange={props.onChange}
         className={css(c(style, s.width(spanWidth), s.px(0), s.inlineBlock))}
       />

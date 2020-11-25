@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: connections-fe
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: connections-fe
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connections-fe
+spec:
+  selector:
+    matchLabels:
+      app: connections-fe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: connections-fe
+    spec:
+      containers:
+        - image: marcusbuffett/connections-fe:latest
+          name: connections-fe
+          ports:
+            - containerPort: 80
+              name: connections-fe
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 2
+      imagePullSecrets:
+        - name: docker-hub-secret-key
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: connections-fe
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+    konghq.com/override: "https-only"
+spec:
+  tls:
+    - secretName: connections-fe-tls
+      hosts:
+        - theconnection.page
+  rules:
+    - host: theconnection.page
+      http: &http_rules
+        paths:
+          - backend:
+              serviceName: connections-fe
+              servicePort: 80
