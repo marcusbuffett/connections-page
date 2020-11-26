@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
 import { Redirect } from "@reach/router"
 import { useNavigate } from "@reach/router"
@@ -19,7 +19,7 @@ import { useImmer } from "use-immer"
 import DashedLine from "src/components/DashedLine"
 import { useStyletronChain } from "src/utils/useStyletronChain"
 import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd"
-import { Menu, Plus, Trash, X } from "react-feather"
+import { AlertTriangle, Menu, Plus, Trash, X } from "react-feather"
 import { introCopy } from "src/copy"
 import produce from "immer"
 import _ from "lodash"
@@ -66,6 +66,14 @@ const CreationPage = ({}: { creation?: boolean }) => {
   const [error, setError] = useState(null)
   const [interests, setInterests] = useImmer(["", "", ""])
   const filteredInterests = _.filter(interests, i => i !== "")
+  useEffect(() => {
+    if (filteredInterests.length === interests.length && interests.length < 8) {
+      setInterests(i => {
+        i.push("")
+        return i
+      })
+    }
+  }, [interests])
 
   const navigate = useNavigate()
   const inlineStyles = c(s.whitespace("pre-wrap"))
@@ -243,29 +251,6 @@ const CreationPage = ({}: { creation?: boolean }) => {
                 )
               })}
             </div>
-            <Spacer height={4} />
-            <div
-              className={css(
-                s.clickable,
-                s.row,
-                s.alignCenter,
-                s.selfCenter,
-                s.bg(s.white(10)),
-                s.fg(s.white(80)),
-                s.py(8),
-                s.px(12),
-                s.br(2)
-              )}
-              onClick={() => {
-                setInterests(interests => {
-                  interests.push("")
-                })
-              }}
-            >
-              <Plus size="20px" style={c(s.displayFlex)} />
-              <Spacer width={8} />
-              <div className={css(s.fontSize(16))}>Add interest</div>
-            </div>
             <Spacer height={12} />
             {!_.isEmpty(filteredInterests) && (
               <div className={css(s.opacity(0.8), s.fontSize(14))}>
@@ -279,6 +264,28 @@ const CreationPage = ({}: { creation?: boolean }) => {
               </div>
             )}
             <Spacer height={48} />
+            {error && (
+              <>
+                <div
+                  className={css(
+                    s.bg(s.white(80)),
+                    s.row,
+                    s.fg(s.black(85)),
+                    s.relative,
+                    s.fontSize(14),
+                    s.py(20),
+                    s.px(20),
+                    s.alignCenter,
+                    s.br(2),
+                    s.justifyBetween
+                  )}
+                >
+                  <div className={css()}>{error}</div>
+                  <AlertTriangle color={s.hsl(0, 50, 40)} />
+                </div>
+                <Spacer height={12} />
+              </>
+            )}
             <div
               className={css(
                 c(
@@ -301,11 +308,25 @@ const CreationPage = ({}: { creation?: boolean }) => {
               <div
                 className={css()}
                 onClick={() => {
+                  if (filteredInterests.length === 0) {
+                    setError("Please set at least one interest")
+                    return
+                  }
+                  if (name === "") {
+                    setError("Please fill in your first name")
+                    return
+                  }
+                  if (twitterScreenName === "") {
+                    setError(
+                      "Please fill in your twitter handle so people can message you"
+                    )
+                    return
+                  }
                   applyCaseMiddleware(axios.create())
                     .post(`/api/pages`, {
                       firstName: name,
                       twitterScreenName,
-                      interests,
+                      interests: filteredInterests,
                     })
                     .then(res => {
                       console.log("res.data:", res.data)

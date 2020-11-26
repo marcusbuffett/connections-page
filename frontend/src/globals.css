@@ -2,11 +2,11 @@ body {
   font-family: "Rubik", sans-serif;
   background: linear-gradient(
     180deg,
-    hsl(240, 25%, 50%) 0%,
-    hsl(240, 25%, 50%) 50%,
+    hsl(240, 28%, 45%) 0%,
+    hsl(240, 28%, 45%) 50%,
     black 51%,
     black 100%
-  );
+  ) !important;
 }
 * {
   box-sizing: border-box;

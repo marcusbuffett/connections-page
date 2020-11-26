@@ -1,4 +1,4 @@
-DONE:
+D: filteredInterestsONE:
 
 - Placeholder "You"
   - lighter color (more transparency?)
@@ -10,17 +10,18 @@ DONE:
 - Remove interest button
 - Add interest button
 - Strip @ from twitter handle
+- Add interests dynamically, limit
+- Error messages
+- Filter interests when submitting
 
 TODO
 
 - Favicon / splash image
-- Look up styling tips for body text
 - Error message after submitting page
-- Filter interests when submitting
-- Remove interests section if no interests
 
 After adding to blog (aka softlaunch):
 
+- Look up styling tips for body text
 - Blog post onp project, add link on bottom
 - Post to twitter
 - Find relevant subreddits, probably social media hating ones

@@ -1,0 +1,218 @@
+Name:             ackee
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  ackee-v3 terminates ackee.nextgreatbook.com,ackee.mbuffett.com,ackee.coronaddicted.com,ackee.skepticalby.design,ackee.rentseeker.app
+Rules:
+  Host                      Path  Backends
+  ----                      ----  --------
+  ackee.nextgreatbook.com   
+                               ackee-release-ackee-chart:3000 ()
+  ackee.mbuffett.com        
+                               ackee-release-ackee-chart:3000 ()
+  ackee.coronaddicted.com   
+                               ackee-release-ackee-chart:3000 ()
+  ackee.skepticalby.design  
+                               ackee-release-ackee-chart:3000 ()
+  ackee.rentseeker.app      
+                               ackee-release-ackee-chart:3000 ()
+Annotations:                cert-manager.io/cluster-issuer: letsencrypt
+                            konghq.com/override: https-only
+                            kubernetes.io/tls-acme: true
+                            plugins.konghq.com: add-cors-headers
+Events:                     <none>
+
+
+Name:             blog
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  blog-tls terminates mbuffett.com,test.mbuffett.com
+Rules:
+  Host               Path  Backends
+  ----               ----  --------
+  mbuffett.com       
+                        blog:80 (10.244.0.11:80,10.244.0.59:80)
+  test.mbuffett.com  
+                        blog:80 (10.244.0.11:80,10.244.0.59:80)
+Annotations:         cert-manager.io/cluster-issuer: letsencrypt
+                     konghq.com/override: https-only
+                     kubernetes.io/tls-acme: true
+Events:              <none>
+
+
+Name:             connections-server
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  connections-server-tls terminates theconnection.page
+Rules:
+  Host                Path  Backends
+  ----                ----  --------
+  theconnection.page  
+                      /api   connections-server:80 ()
+Annotations:          cert-manager.io/cluster-issuer: letsencrypt
+                      konghq.com/override: https-only
+                      kubernetes.io/tls-acme: true
+Events:
+  Type    Reason             Age    From          Message
+  ----    ------             ----   ----          -------
+  Normal  CreateCertificate  6m28s  cert-manager  Successfully created Certificate "connections-server-tls"
+
+
+Name:             coronaddicted
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  coronaddicted-tls terminates coronaddicted.com
+Rules:
+  Host               Path  Backends
+  ----               ----  --------
+  coronaddicted.com  
+                     /   coronaddicted:3000 (10.244.0.22:3000,10.244.0.67:3000)
+Annotations:         cert-manager.io/cluster-issuer: letsencrypt
+                     konghq.com/override: https-only
+                     kubernetes.io/tls-acme: true
+Events:              <none>
+
+
+Name:             housething
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  housething-tls terminates housething.mbuffett.com
+Rules:
+  Host                     Path  Backends
+  ----                     ----  --------
+  housething.mbuffett.com  
+                              housething:3000 (10.244.1.57:3000)
+Annotations:               cert-manager.io/cluster-issuer: letsencrypt
+                           konghq.com/override: https-only
+                           kubernetes.io/tls-acme: true
+Events:                    <none>
+
+
+Name:             mailu-custom-ingress
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  mailu-custom-ingress-tls terminates mail.mbuffett.com
+Rules:
+  Host               Path  Backends
+  ----               ----  --------
+  mail.mbuffett.com  
+                        mailu-front:80 (<error: endpoints "mailu-front" not found>)
+Annotations:         cert-manager.io/cluster-issuer: letsencrypt
+                     ingress.kubernetes.io/rewrite-target: /
+                     konghq.com/override: https-only
+                     kubernetes.io/tls-acme: true
+Events:              <none>
+
+
+Name:             proxy
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  mbuffett-proxy terminates proxy.mbuffett.com
+Rules:
+  Host                Path  Backends
+  ----                ----  --------
+  proxy.mbuffett.com  
+                      /   proxydest:80 (10.244.1.114:4300)
+Annotations:          cert-manager.io/cluster-issuer: letsencrypt
+                      kubernetes.io/tls-acme: true
+                      plugins.konghq.com: add-cors-headers
+Events:               <none>
+
+
+Name:             rentseeker
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  rentseeker-tls terminates rentseeker.app
+Rules:
+  Host            Path  Backends
+  ----            ----  --------
+  rentseeker.app  
+                     rentseeker:3000 (10.244.1.31:3000)
+Annotations:      cert-manager.io/cluster-issuer: letsencrypt
+                  konghq.com/override: https-only
+                  kubernetes.io/tls-acme: true
+Events:           <none>
+
+
+Name:             rentseeker-server
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  rentseeker-server-tls terminates rentseeker.app
+Rules:
+  Host            Path  Backends
+  ----            ----  --------
+  rentseeker.app  
+                  /api   rentseeker-server:80 (10.244.1.91:80)
+Annotations:      cert-manager.io/cluster-issuer: letsencrypt
+                  konghq.com/override: https-only
+                  kubernetes.io/tls-acme: true
+Events:           <none>
+
+
+Name:             server
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+Rules:
+  Host                Path  Backends
+  ----                ----  --------
+  nextgreatbook.com   
+                      /api   server:80 (10.244.1.67:80)
+  nowwhatdoiread.com  
+                      /api   server:80 (10.244.1.67:80)
+Annotations:          cert-manager.io/cluster-issuer: letsencrypt-prod
+                      kubernetes.io/tls-acme: true
+Events:               <none>
+
+
+Name:             skep-blog
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  skep-blog-tls terminates skepticalby.design
+Rules:
+  Host                Path  Backends
+  ----                ----  --------
+  skepticalby.design  
+                         skep-blog:80 (10.244.1.107:80,10.244.1.88:80)
+Annotations:          cert-manager.io/cluster-issuer: letsencrypt
+                      konghq.com/override: https-only
+                      kubernetes.io/tls-acme: true
+Events:               <none>
+
+
+Name:             web
+Namespace:        default
+Address:          138.197.238.210
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+TLS:
+  newreads-web-v2 terminates nextgreatbook.com,nowwhatdoiread.com
+Rules:
+  Host                Path  Backends
+  ----                ----  --------
+  nextgreatbook.com   
+                      /   web:80 (10.244.0.16:80,10.244.0.95:80)
+  nowwhatdoiread.com  
+                      /   web:80 (10.244.0.16:80,10.244.0.95:80)
+Annotations:          cert-manager.io/cluster-issuer: letsencrypt
+                      konghq.com/override: https-only
+                      kubernetes.io/tls-acme: true
+Events:               <none>

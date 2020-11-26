@@ -17,6 +17,7 @@ import {
 import { useIsMobile } from "src/utils/useIsMobile"
 import Spacer from "src/components/Spacer"
 
+import { useLocation } from "@reach/router"
 const Layout = ({
   header,
   body,
@@ -46,6 +47,8 @@ const Layout = ({
     )
   }, [])
   const isMobile = useIsMobile()
+  const location = useLocation()
+  console.log("location:", location)
 
   return (
     <FontsLoadedContext.Provider value={fontsLoaded}>
@@ -62,6 +65,19 @@ const Layout = ({
             data-ackee-server="https://ackee.theconnection.page"
             data-ackee-domain-id="8e632398-63a0-4f63-a296-7aa1c6d41aaa"
           ></script>
+          <meta name="twitter:card" content="summary" />
+          {/*{location.pathname === "/" ? (
+            <>
+              <meta name="twitter:site" content="@marcusbuffett" />
+              <meta name="twitter:creator" content="@marcusbuffett" />
+            </>
+          ) : null}*/}
+          <meta property="og:title" content="The Connection Page" />
+          <meta
+            property="og:description"
+            content="We could all use some connection"
+          />
+          <meta property="og:image" content="/twitter_card.png" />
         </Helmet>
         <div
           className={css(

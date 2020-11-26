@@ -146,6 +146,9 @@ const shadow = (x, y, blur, spread, color) => {
 const white = (opacity: number) => {
   return `hsla(0, 0%, 100%, ${opacity}%)`
 }
+const black = (opacity: number) => {
+  return `hsla(0, 0%, 0%, ${opacity}%)`
+}
 
 export const s = {
   keyedProp,
@@ -251,4 +254,5 @@ export const s = {
     }
   },
   white,
+  black,
 }
